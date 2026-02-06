@@ -1,0 +1,1 @@
+{"name": "realdiv", "version": "1.0.0", "private": true, "dependencies": {"@cloudflare/workers-types": "^4.0.0", "wrangler": "^3.0.0"}}
