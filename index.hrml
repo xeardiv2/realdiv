@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: 'Times New Roman', Times, serif; line-height: 1.5; color: #1a1a1a; padding: 40px; background-color: #f4f4f4; }
+        .document-container { background: #fff; max-width: 800px; margin: auto; padding: 60px; border: 1px solid #ccc; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px; }
+        .header h1 { margin: 0; font-size: 22px; text-transform: uppercase; }
+        .header h2 { margin: 5px 0; font-size: 16px; font-weight: normal; }
+        .confidential { color: #d9534f; font-weight: bold; text-align: center; border: 2px solid #d9534f; padding: 5px; margin-bottom: 20px; text-transform: uppercase; }
+        .section-title { font-weight: bold; text-decoration: underline; text-transform: uppercase; margin-top: 25px; display: block; }
+        .content-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        .content-table td, .content-table th { border: 1px solid #ddd; padding: 8px; text-align: left; font-size: 14px; }
+        .legal-cite { font-style: italic; font-size: 13px; color: #444; margin-top: 10px; display: block; }
+        .footer { margin-top: 40px; border-top: 1px solid #000; padding-top: 10px; font-size: 12px; }
+        .stamp { position: absolute; border: 3px double #000; padding: 10px; opacity: 0.2; transform: rotate(-15deg); font-size: 30px; font-weight: bold; right: 100px; }
+    </style>
+    <title>Federal Cyber-Incident Audit - Grupo Stars Tres Corp</title>
+</head>
+<body>
+
+<div class="document-container">
+    <div class="header">
+        <h1>Notice of Federal Audit and Cybersecurity Investigation</h1>
+        <h2>United States Jurisdiction | Delaware State Compliance</h2>
+    </div>
+
+    <div class="confidential">Official Notice: Forensic Study in Progress - Restricted Access</div>
+
+    <span class="section-title">1. Corporate Entity and Ownership Profile</span>
+    <p>
+        The entity under investigation is <strong>GRUPO STARS TRES CORP</strong>, a Delaware corporation. 
+        The company is headquartered at 600 N Broad Street, Suite 5 #525, Middletown, DE 19709, United States[cite: 23]. 
+        As of February 11, 2025, the ownership and management structure is as follows:
+    </p>
+
+    <table class="content-table">
+        <tr>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Ownership Stake</th>
+        </tr>
+        <tr>
+            <td>Cesar Giancrisostemi</td>
+            <td>President and CEO / Director [cite: 10, 15]</td>
+            <td>33.33% (3,000 Shares) [cite: 26, 33]</td>
+        </tr>
+        <tr>
+            <td>Carlos Agustin Jeambeau</td>
+            <td>Treasurer, CFO / Director [cite: 11, 16]</td>
+            <td>33.33% (3,000 Shares) [cite: 26, 35]</td>
+        </tr>
+        <tr>
+            <td>Alejandro Daniel Diviasi</td>
+            <td>CTO [cite: 12]</td>
+            <td>33.33% (3,000 Shares) [cite: 26, 37]</td>
+        </tr>
+    </table>
+
+    <span class="section-title">2. Regulatory Framework (Delaware Chapter 176)</span>
+    <p>
+        Pursuant to the <strong>Insurance Data Security Act</strong> (Delaware HB 174)[cite: 41, 46], this investigation 
+        addresses a "Cybersecurity Event," defined as unauthorized access to or disruption of an information system 
+        containing nonpublic information. 
+        Under Section 8605, the licensee is required to conduct a prompt investigation to determine the nature 
+        and scope of the event and identify compromised data[cite: 135].
+    </p>
+
+    <span class="section-title">3. Incident Summary and Material Damage</span>
+    <p>
+        This case involves a severe internal cyberattack and harassment campaign. The following critical 
+        security breaches have been documented:
+    </p>
+    <ul>
+        <li><strong>Unauthorized Access:</strong> Compromise of the primary Gmail infrastructure and Multi-Factor Authentication (MFA) protocols.</li>
+        <li><strong>Service Disruption:</strong> Forcible closure of Cloudflare accounts due to administrative sabotage and lack of payment, resulting in a total offline status for all company URLs.</li>
+        <li><strong>Data Loss:</strong> Destruction or loss of over 10,000 critical records and advanced system configurations.</li>
+        <li><strong>Asset Seizure:</strong> The domain <strong>superaudio.online</strong> is currently inaccessible due to security locks triggered by the attack.</li>
+    </ul>
+
+    <span class="section-title">4. Judicial Recovery and Current Status</span>
+    <p>
+        The CTO, Alejandro Daniel Diviasi, has initiated a <strong>judicial recovery process</strong> to reclaim the 
+        domain and restore corporate security. Under Delaware law, the company must investigate the specific 
+        involvement of third-party technicians and restore system security to prevent further unauthorized use 
+        of nonpublic information[cite: 112, 135].
+    </p>
+
+    <blockquote>
+        <strong>Current Status:</strong> CASE UNDER FORENSIC STUDY. 
+        A mandatory evaluation period of <strong>7 days</strong> is in effect. 
+        Access remains restricted to prevent further damage. Judicial notice has been served 
+        to recover the original domain under cybersecurity protection laws.
+    </blockquote>
+
+    <div class="footer">
+        <p>This document constitutes a formal record of the ongoing investigation into federal and state-level cybercrimes.</p>
+        <p>Reference: Delaware Code Title 18, Chapter 86[cite: 44]. | Effective: July 31, 2019[cite: 213].</p>
+    </div>
+</div>
+
+</body>
+</html>
