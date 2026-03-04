@@ -1,0 +1,225 @@
+{
+  "name": "WF1 - Ingesta (REACTOR 1)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ingesta-ern",
+        "responseMode": "onReceived",
+        "responseData": "{{ $json }}",
+        "options": {}
+      },
+      "id": "webhook-entrada",
+      "name": "Webhook - Recibir ERN",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Simular el parseo del mensaje ERN. \n// En un caso real, aquí procesarías el XML/JSON del body.\nconst ernMessage = $input.first().json;\n\n// Simulamos que el mensaje tiene estos campos.\n// En un escenario real, extraerías esto del cuerpo del mensaje.\nconst parsedData = {\n  ernId: ernMessage.ernId || `ERN-${Date.now()}`,\n  version: ernMessage.version || 'DDEX-3.8',\n  upc: ernMessage.upc || '123456789012',\n  assets: ernMessage.assets || ['track1.wav', 'track2.wav'],\n  isValidDDEX: ernMessage.isValidDDEX !== undefined ? ernMessage.isValidDDEX : true, // Simular validación\n  isValidBusiness: ernMessage.isValidBusiness !== undefined ? ernMessage.isValidBusiness : true, // Simular validación\n  rawMessage: ernMessage\n};\n\n// Añadimos una ruta de S3 de ejemplo\nparsedData.s3TempPath = `s3://mi-bucket/standard/temp/${parsedData.ernId}/`;\n\nreturn [parsedData];"
+      },
+      "id": "function-parseo",
+      "name": "Function - Parsear ERN",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true
+          },
+          "conditions": [
+            {
+              "id": "6736dac6-a4ba-4e65-9522-9d71d3fec8cd",
+              "leftValue": "={{ $json['isValidDDEX'] }}",
+              "rightValue": "={{ $json['isValidBusiness'] }}",
+              "operator": {
+                "type": "boolean"
+              }
+            }
+          ]
+        }
+      },
+      "id": "if-validaciones",
+      "name": "IF - Validar todo",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "bucket": "mi-bucket-de-ingesta",
+        "fileName": "={{ $json.ernId }}/ern-message.json",
+        "binaryData": false,
+        "jsonParameters": true,
+        "contentType": "application/json"
+      },
+      "id": "s3-guardar-ern",
+      "name": "S3 - Guardar ERN",
+      "type": "n8n-nodes-base.s3",
+      "typeVersion": 2,
+      "position": [850, 200]
+    },
+    {
+      "parameters": {
+        "bucket": "mi-bucket-de-ingesta",
+        "fileName": "={{ $json.s3TempPath }}assets/manifest.json",
+        "binaryData": false,
+        "jsonParameters": true,
+        "contentType": "application/json"
+      },
+      "id": "s3-guardar-manifest",
+      "name": "S3 - Guardar Manifest",
+      "type": "n8n-nodes-base.s3",
+      "typeVersion": 2,
+      "position": [850, 400]
+    },
+    {
+      "parameters": {
+        "queueUrl": "https://sqs.us-east-1.amazonaws.com/123456789012/ern-validados",
+        "sendInput": true,
+        "messageBody": "={{ $json }}"
+      },
+      "id": "sqs-encolar",
+      "name": "SQS - Encolar trabajo",
+      "type": "n8n-nodes-base.sqs",
+      "typeVersion": 1,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Este nodo se ejecutará si la validación falla (rama 'false' del nodo IF)\nconst errorData = $input.first().json;\nerrorData.errorType = 'VALIDATION_ERROR';\nerrorData.errorMessage = 'El mensaje ERN no pasó las validaciones de DDEX o de negocio.';\nerrorData.workflowId = 'WF1';\n\n// En un caso real, aquí podrías preparar más información para el WF4.\nreturn [errorData];"
+      },
+      "id": "function-preparar-error",
+      "name": "Function - Preparar error",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [850, 600]
+    },
+    {
+      "parameters": {
+        "url": "={{ $execution?.resumeUrl }}",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-respuesta-error",
+      "name": "Webhook - Responder error",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [1050, 600]
+    },
+    {
+      "parameters": {
+        "url": "={{ $execution?.resumeUrl }}",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-respuesta-ok",
+      "name": "Webhook - Responder OK",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [1250, 300]
+    }
+  ],
+  "connections": {
+    "Webhook - Recibir ERN": {
+      "main": [
+        [
+          {
+            "node": "Function - Parsear ERN",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Function - Parsear ERN": {
+      "main": [
+        [
+          {
+            "node": "IF - Validar todo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IF - Validar todo": {
+      "main": [
+        [
+          {
+            "node": "S3 - Guardar ERN",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "S3 - Guardar Manifest",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Function - Preparar error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "S3 - Guardar ERN": {
+      "main": [
+        [
+          {
+            "node": "SQS - Encolar trabajo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "S3 - Guardar Manifest": {
+      "main": [
+        [
+          {
+            "node": "SQS - Encolar trabajo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SQS - Encolar trabajo": {
+      "main": [
+        [
+          {
+            "node": "Webhook - Responder OK",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Function - Preparar error": {
+      "main": [
+        [
+          {
+            "node": "Webhook - Responder error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "pinData": {},
+  "versionId": "wf1-ingesta-v1.0",
+  "triggerCount": 0
+}
