@@ -1,24 +1,417 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reactor White Paper</title>
+    <title>Reactor · white paper técnico-financiero</title>
+    <style>
+        /* === ESTILO CIENTÍFICO SOBRIO === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #ffffff;
+            font-family: 'Helvetica', 'Arial', 'Helvetica Neue', sans-serif;
+            color: #1a1a1a;
+            line-height: 1.6;
+            padding: 2.5rem 1rem;
+            display: flex;
+            justify-content: center;
+        }
+        .paper {
+            max-width: 1100px;
+            width: 100%;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            padding: 3rem 2.5rem;
+            border: 1px solid #eaeaea;
+        }
+
+        /* Tipografía y espacios */
+        h1, h2, h3, h4 {
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            color: #000;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            border-bottom: 2px solid #111;
+            padding-bottom: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 500;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 0.3rem;
+        }
+        h3 {
+            font-size: 1.4rem;
+            font-weight: 500;
+            margin-top: 1.8rem;
+        }
+        h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #222;
+        }
+        p, li {
+            color: #2c2c2c;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+        .author {
+            font-size: 1.1rem;
+            margin: 0.5rem 0 1.5rem 0;
+            color: #4a4a4a;
+            font-style: italic;
+        }
+        .date {
+            font-size: 0.95rem;
+            color: #6a6a6a;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 2rem 0;
+        }
+
+        /* tablas estilo paper */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-size: 0.95rem;
+            background-color: #fafafa;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: 600;
+            text-align: left;
+            padding: 12px 10px;
+            border-bottom: 2px solid #aaa;
+        }
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        td:first-child, th:first-child { padding-left: 15px; }
+        td:last-child, th:last-child { padding-right: 15px; }
+
+        .highlight {
+            background-color: #f9f1dd; /* amarillo suave */
+            font-weight: 500;
+        }
+        .positive {
+            color: #0b5e2e;
+            font-weight: 600;
+        }
+        .negative {
+            color: #a12b2b;
+            font-weight: 600;
+        }
+        .center {
+            text-align: center;
+        }
+
+        /* cajas de nota / referencias */
+        .callout {
+            background-color: #f8f8f8;
+            border-left: 4px solid #2c2c2c;
+            padding: 1.2rem 2rem;
+            margin: 2rem 0;
+            font-style: normal;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+        .callout p {
+            margin-bottom: 0.5rem;
+        }
+        .footnote {
+            font-size: 0.9rem;
+            color: #5a5a5a;
+            border-top: 1px dashed #ccc;
+            padding-top: 0.8rem;
+            margin-top: 2rem;
+        }
+
+        /* listas clave-valor */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.8rem;
+            margin: 2rem 0;
+        }
+        .stat-item {
+            background: #fafafa;
+            padding: 1.2rem 1.5rem;
+            border: 1px solid #e0e0e0;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: #6f6f6f;
+            letter-spacing: 0.4px;
+        }
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 400;
+            color: #000;
+            line-height: 1.2;
+        }
+        .stat-desc {
+            font-size: 0.95rem;
+            color: #3a3a3a;
+        }
+
+        /* gráfico de proyección simple (ASCII/CSS) */
+        .projection-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 2rem;
+            justify-content: center;
+            margin: 3rem 0;
+            padding: 1.5rem;
+            background: #fcfcfc;
+            border: 1px solid #eaeaea;
+        }
+        .bar-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80px;
+        }
+        .bar {
+            width: 45px;
+            background-color: #1e3a5f;
+            margin-bottom: 8px;
+            transition: height 0.2s;
+        }
+        .bar-label {
+            font-size: 0.9rem;
+            color: #333;
+        }
+        .bar-value {
+            font-size: 0.85rem;
+            color: #1e3a5f;
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            .paper { padding: 1.5rem; }
+            h1 { font-size: 2rem; }
+        }
+    </style>
 </head>
 <body>
-<h1>Reactor White Paper</h1>
-<section>
-    <h2>Introduction</h2>
-    <p>This is the introduction section of the Reactor white paper...</p>
-</section>
-<section>
-    <h2>Background</h2>
-    <p>This section covers the background of the Reactor technology...</p>
-</section>
-<section>
-    <h2>Methodology</h2>
-    <p>Here we detail the methodology used in the Reactor project...</p>
-</section>
-<!-- Additional sections go here -->
+<div class="paper">
+    <!-- TÍTULO Y AUTORÍA -->
+    <h1>REACTOR INC.</h1>
+    <p class="author">Arquitectura de audio de alta fidelidad para educación musical · documento técnico 2026</p>
+    <p class="date">versión 3.0 · 15 de marzo 2026 · clasificación: público inversor</p>
+
+    <hr>
+
+    <!-- RESUMEN EJECUTIVO / TESIS -->
+    <h2>Tesis de inversión: la democratización del audio <em>high‑end</em></h2>
+    <p>La educación musical online sufre una <strong>degradación sistemática de la experiencia</strong> debido a herramientas genéricas (Zoom, Meet, YouTube) que comprimen el audio e introducen latencias superiores a 2,5 segundos. Reactor construye un <em>túnel de sonido sin fricción</em> mediante una arquitectura cloud‑nativa sobre Cloudflare Calls, WebRTC y codecs libres optimizados. Esto permite latencia &lt;100 ms, calidad 4K/FLAC y un costo marginal cercano a cero, inalcanzable para plataformas que dependen de SaaS de terceros.</p>
+
+    <div class="callout">
+        <p><strong>✦ Ventaja estructural ✦</strong> Nuestro modelo no paga "impuestos tecnológicos" (Vimeo, Teachable, Zoom). La infraestructura serverless (Cloudflare Workers + R2 + AWS EC2 bajo demanda) hace que el costo sea cero en inactividad y pague solo $1 por cada 1.000 minutos de streaming.</p>
+    </div>
+
+    <!-- CONTEXTO: BATERISTARS + BASE DATOS -->
+    <h2>Antecedente: Bateristars (2018–2025)</h2>
+    <p>Bateristars funcionó como MVP: red social, biblioteca y academia para bateristas. Generó una comunidad orgánica de <strong>50.000 correos electrónicos</strong> y un grupo de Facebook activo. La limitación de su primera arquitectura (escalado lineal) nos obligó a repensar el modelo. Reactor nace de ese aprendizaje: no una academia, sino la <strong>infraestructura subyacente</strong> que permite a cualquier músico o escuela ofrecer clases con calidad de estudio profesional.</p>
+
+    <!-- PILARES DE NEGOCIO: ACADEMIA Y RED SOCIAL -->
+    <h2>Dos motores de ingreso</h2>
+    <div class="stats-grid">
+        <div class="stat-item">
+            <div class="stat-label">Academia premium</div>
+            <div class="stat-value">$100 <span style="font-size:1.2rem;">/mes alumno</span></div>
+            <div class="stat-desc">retención 10% después de costos · pago a docente a 20 días · 4 h/mes de clase en vivo</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-label">Red social + Adsense</div>
+            <div class="stat-value">CPM ~$5–15</div>
+            <div class="stat-desc">impresiones en video/audio de alta calidad · costos de egreso $0 (arquitectura propia)</div>
+        </div>
+    </div>
+
+    <!-- TABLA DE MÁRGENES ACADEMIA (con FastSpring) -->
+    <h3>Análisis de margen por alumno (suscripción $100)</h3>
+    <table>
+        <thead>
+            <tr><th>Concepto</th><th>Importe</th><th>Notas</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Pago del alumno</td><td>$100</td><td></td></tr>
+            <tr><td>Comisión FastSpring (8,9%)</td><td>− $8,90</td><td>Merchant of Record, impuestos incluidos</td></tr>
+            <tr><td>Costo transmisión (4 h = 240 min)</td><td>− $0,24</td><td>$1 / 1000 min</td></tr>
+            <tr><td><strong>Base de reparto</strong></td><td><strong>$90,86</strong></td><td></td></tr>
+            <tr><td>Retención Reactor (10% sobre base)</td><td>$9,09</td><td>ingreso neto para la plataforma</td></tr>
+            <tr><td>Pago al docente (90% restante)</td><td>$81,77</td><td>líquido a los 20 días</td></tr>
+        </tbody>
+    </table>
+    <p style="font-size:0.9rem;">* Con costos de IA insignificantes ($0,30/millón de consultas) y almacenamiento casi nulo (R2). El margen neto por alumno es de <strong>$9,09</strong> mensual, que a escala genera flujo creciente sin costos fijos relevantes.</p>
+
+    <!-- ESCENARIO DE ESCALABILIDAD -->
+    <h3>Proyección de ingresos netos (retención Reactor)</h3>
+    <table>
+        <thead>
+            <tr><th>Alumnos</th><th>Ingreso total alumnos</th><th>Costos pago+tx</th><th>Base reparto</th><th>Retención Reactor (10%)</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>1.000</td><td>$100.000</td><td>$9.140</td><td>$90.860</td><td class="highlight">$9.086</td></tr>
+            <tr><td>10.000</td><td>$1.000.000</td><td>$91.400</td><td>$908.600</td><td class="highlight">$90.860</td></tr>
+            <tr><td>100.000</td><td>$10.000.000</td><td>$914.000</td><td>$9.086.000</td><td class="highlight">$908.600</td></tr>
+            <tr><td>1.000.000</td><td>$100.000.000</td><td>$9.140.000</td><td>$90.860.000</td><td class="highlight">$9.086.000</td></tr>
+        </tbody>
+    </table>
+
+    <!-- COMPARATIVA DE COSTOS DE EGRESO AWS VS REACTOR -->
+    <h2>Ventaja de costos: egreso de red y codificación</h2>
+    <p>Para 1 millón de visualizaciones de un video de 10 GB (calidad alta), la arquitectura convencional en AWS CloudFront generaría costos prohibitivos. Nuestra implementación con Cloudflare R2 (sin costos de egreso) + Workers + FFmpeg optimizado reduce la factura a cero en transferencia.</p>
+    <table>
+        <thead>
+            <tr><th>Concepto (1M reproducciones)</th><th>AWS / GCP tradicional</th><th>Arquitectura Reactor</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Costo de egreso (bandwidth)</td><td class="negative">$80.000 – $120.000</td><td class="positive">$0</td></tr>
+            <tr><td>Codificación de video/audio (h265/FLAC)</td><td class="negative">$0,01–0,05 por minuto (servicios externos)</td><td class="positive">$0 (FFmpeg en Workers/EC2 spot)</td></tr>
+            <tr><td>Dependencia de licencias</td><td>Alta (codificadores privados)</td><td class="positive">Nula (open source: Ubuntu + FFmpeg)</td></tr>
+            <tr><td>Almacenamiento (10 GB)</td><td>$0,23/GB mensual (S3) + costos de salida</td><td>$0 (R2 hasta 10 GB gratis, luego $0,015/GB sin egreso)</td></tr>
+        </tbody>
+    </table>
+    <div class="callout">
+        <p><strong>Implicación:</strong> Un negocio de video convencional quiebra al escalar; Reactor escala con margen creciente. La diferencia es la <strong>arquitectura de procesos en cadena</strong> construida desde 2018, no el mero hosting.</p>
+    </div>
+
+    <!-- NUEVO: MARGEN CON ADSENSE -->
+    <h2>Monetización por publicidad (Adsense)</h2>
+    <p>La red social de alta calidad (subida de videos/audio en FLAC) permite ingresos por impresiones. Estimamos un CPM promedio de $8 para contenido musical especializado. Los costos de servidor para servir contenido ya están cubiertos por el diseño serverless (casi cero).</p>
+    <table>
+        <thead><tr><th>Impresiones mensuales</th><th>CPM estimado</th><th>Ingreso bruto</th><th>Costo incremental</th><th>Margen</th></tr></thead>
+        <tbody>
+            <tr><td>1.000.000</td><td>$8</td><td>$8.000</td><td>~$80 (análisis/logs)</td><td>$7.920</td></tr>
+            <tr><td>10.000.000</td><td>$8</td><td>$80.000</td><td>~$400</td><td>$79.600</td></tr>
+            <tr><td>100.000.000</td><td>$8</td><td>$800.000</td><td>~$3.000</td><td>$797.000</td></tr>
+        </tbody>
+    </table>
+    <p class="footnote">* Nota: la arquitectura Reactor permite servir contenido sin costo de egreso, por lo que el margen en publicidad supera el 95%.</p>
+
+    <!-- STACK TECNOLÓGICO (DETALLE OPEN SOURCE) -->
+    <h2>Stack abierto y sin dependencias privativas</h2>
+    <p>Todo el sistema se basa en código libre y servicios de infraestructura básica (AWS EC2, S3, RDS; Cloudflare Workers, R2, Calls; Vercel). No utilizamos SaaS de codificación ni pasarelas con franquicias.</p>
+    <ul style="columns:2; margin:1.5rem 0;">
+        <li><strong>Frontend:</strong> Next.js (React) + TypeScript, desplegado en Vercel.</li>
+        <li><strong>Backend:</strong> Node.js + Workers (Cloudflare) para lógica serverless.</li>
+        <li><strong>Base de datos:</strong> MySQL en AWS RDS (Multi‑AZ).</li>
+        <li><strong>Audio/Video:</strong> FFmpeg con codecs FLAC, x264, x265; empaquetado HLS/DASH.</li>
+        <li><strong>Almacenamiento:</strong> Cloudflare R2 (S3‑compatible, sin costos de salida).</li>
+        <li><strong>Streaming en vivo:</strong> Cloudflare Calls (WebRTC optimizado).</li>
+        <li><strong>Pagos globales:</strong> FastSpring (o Paddle) como Merchant of Record.</li>
+        <li><strong>IA:</strong> Workers AI + modelos abiertos preentrenados (transcripción, corrección).</li>
+    </ul>
+
+    <!-- LEY DE LAS 6D Y EJEMPLO FÍSICO VS DIGITAL -->
+    <h2>Las 6D de los negocios exponenciales (P. Diamandis)</h2>
+    <p>Reactor encarna cada etapa:</p>
+    <div style="display:grid; grid-template-columns:1fr 2fr; gap:0.5rem 1rem; margin:1.5rem 0;">
+        <span style="font-weight:600;">Digitalización:</span> <span>Audio/video convertidos en paquetes IP de alta calidad.</span>
+        <span style="font-weight:600;">Decepción:</span> <span>2018–2024 trabajo silencioso, sin retorno comercial aparente.</span>
+        <span style="font-weight:600;">Disrupción:</span> <span>Latencia <100ms + FLAC en navegador, imposible para Zoom/Meet.</span>
+        <span style="font-weight:600;">Desmonetización:</span> <span>Eliminamos costos de intermediarios tecnológicos.</span>
+        <span style="font-weight:600;">Desmaterialización:</span> <span>El conservatorio entra en el bolsillo; el alumno ya no viaja 100 km.</span>
+        <span style="font-weight:600;">Democratización:</span> <span>Cualquier músico del mundo accede a la misma calidad.</span>
+    </div>
+
+    <div class="callout">
+        <p><strong>Ejemplo de valor real:</strong> Un alumno que viajaba 100 km ida y vuelta para una clase de piano (coste de tiempo + dinero) ahora recibe en su casa audio en vivo con calidad de estudio, puede registrar toda la clase y acceder mediante IA a explicaciones precisas, superando la barrera de la vergüenza o el olvido. El docente, por su parte, recibe el pago en 20 días sin gestionar pasarelas ni impuestos internacionales.</p>
+    </div>
+
+    <!-- BLINDAJE LEGAL Y CORPORATIVO -->
+    <h2>Estructura legal y gobierno</h2>
+    <ul>
+        <li><strong>Constitución:</strong> Reactor Inc. en Delaware (costo ~$800 por servicio SFM, aparte de los $1.000 iniciales).</li>
+        <li><strong>IP y acuerdos:</strong> Cesión de propiedad intelectual de fundadores, pacto de socios, cláusulas de compra‑venta.</li>
+        <li><strong>Residencia del socio en EE.UU.:</strong> Facilita banca, relación con venture capital y cumplimiento fiscal.</li>
+        <li><strong>Protección de datos:</strong> Cumplimiento GDPR, CCPA desde el diseño; uso de bots y verificación humana para evitar ataques.</li>
+        <li><strong>Confidencialidad arquitectura:</strong> El valor reside en los microajustes y procesos; el código base es abierto pero el <em>know‑how</em> se protege mediante NDA.</li>
+    </ul>
+
+    <!-- INVERSIÓN INICIAL Y ROADMAP -->
+    <h2>Inversión semilla: $1.000 para deployment</h2>
+    <p>Este capital cubre la puesta en marcha de la infraestructura (créditos en nube, dominios, herramientas) para lanzar una beta privada con usuarios de la base de Bateristars. <strong>No incluye constitución Delaware</strong> (apartado).</p>
+    <table style="max-width:600px;">
+        <tr><th>Concepto</th><th>Porcentaje</th><th>Monto</th></tr>
+        <tr><td>Créditos iniciales Cloudflare/AWS</td><td>50%</td><td>$500</td></tr>
+        <tr><td>Herramientas de desarrollo y productividad</td><td>30%</td><td>$300</td></tr>
+        <tr><td>Email marketing y reactivación base 50k</td><td>20%</td><td>$200</td></tr>
+    </table>
+
+    <h3>Roadmap ejecución (primeros 2 meses)</h3>
+    <ul>
+        <li><strong>Semanas 1‑2:</strong> Firma acuerdos societarios, configuración FastSpring, despliegue base en Vercel + Cloudflare.</li>
+        <li><strong>Semanas 3‑4:</strong> Integración de Workers, R2 y Calls; pruebas de latencia interna.</li>
+        <li><strong>Semanas 5‑6:</strong> Implementación de FFmpeg para grabación y reproducción FLAC/h265.</li>
+        <li><strong>Semanas 7‑8:</strong> Invitación a 200 músicos de la base Bateristars; beta privada con métricas reales (latencia, satisfacción).</li>
+    </ul>
+
+    <!-- GRÁFICO DE PROYECCIÓN (simple con barras CSS) -->
+    <h2>Proyección de crecimiento (usuarios activos)</h2>
+    <div class="projection-chart">
+        <div class="bar-container">
+            <div class="bar" style="height:30px;"></div>
+            <span class="bar-label">Año 1</span>
+            <span class="bar-value">2.000</span>
+        </div>
+        <div class="bar-container">
+            <div class="bar" style="height:70px;"></div>
+            <span class="bar-label">Año 2</span>
+            <span class="bar-value">12.000</span>
+        </div>
+        <div class="bar-container">
+            <div class="bar" style="height:140px;"></div>
+            <span class="bar-label">Año 3</span>
+            <span class="bar-value">45.000</span>
+        </div>
+        <div class="bar-container">
+            <div class="bar" style="height:220px;"></div>
+            <span class="bar-label">Año 4</span>
+            <span class="bar-value">120.000</span>
+        </div>
+    </div>
+    <p style="text-align:center; font-size:0.9rem;">* Proyección basada en efecto red + conversión de base existente.</p>
+
+    <!-- CIERRE: POTENCIAL EXIT Y CONCLUSIÓN -->
+    <hr>
+    <h3>Conclusión para el inversor cofundador</h3>
+    <p>Reactor no es una startup de "clases online" convencional. Es la primera infraestructura digital que resuelve el problema de <strong>audio de alta fidelidad + latencia cero</strong> para músicos, con costos variables que destruyen a cualquier competidor. La combinación de:</p>
+    <ul>
+        <li>50.000 contactos calientes y comunidad activa,</li>
+        <li>Arquitectura serverless 100% open source,</li>
+        <li>Modelo de ingresos con márgenes >30% incluso después de pagos,</li>
+        <li>y blindaje legal desde el día 1 (Delaware, IP, acuerdos)</li>
+    </ul>
+    <p>convierte esta oportunidad en un candidato ideal para crecimiento exponencial y posterior exit (adquisición por Spotify, MasterClass, o consolidadores de EdTech).</p>
+
+    <div style="background:#f2f2f2; padding:1.5rem; margin-top:2.5rem; border-left:6px solid #1a1a1a;">
+        <p style="font-size:1.2rem; font-weight:500;">✦ Inversión solicitada: $1.000 USD (más constitución Delaware aparte) ✦</p>
+        <p style="margin:0;">50% equity · socio residente EE.UU. con ventajas financieras y de red · despliegue inmediato.</p>
+    </div>
+
+    <hr>
+    <p class="footnote">Documento preparado por el equipo fundador de Reactor. Los datos de costos de Cloudflare y AWS son públicos y verificables a marzo 2026. Se recomienda acompañar con proyecciones dinámicas en hoja de cálculo.</p>
+</div>
 </body>
 </html>
