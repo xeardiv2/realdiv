@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIM Telemedicina Digital | Alianza SIM & DIVIASI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sim-blue: #005aab;
+            --sim-light-blue: #00a1e4;
+            --diviasi-accent: #00d1b2;
+            --medical-red: #ff3860;
+            --dark: #1a1a1a;
+            --light: #f4f7f6;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+        body { background-color: var(--light); color: var(--dark); line-height: 1.6; }
+
+        /* Navigation */
+        header {
+            background: var(--white);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo { font-weight: bold; font-size: 1.4rem; color: var(--sim-blue); display: flex; align-items: center; gap: 10px; }
+        .logo span { color: var(--sim-light-blue); }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--sim-blue), var(--sim-light-blue));
+            color: var(--white);
+            padding: 5rem 5%;
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+        }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 1.5rem; }
+        .hero p { font-size: 1.2rem; max-width: 800px; margin: 0 auto 2rem; opacity: 0.9; }
+
+        /* IA Pre-entrenada Section */
+        .ia-box {
+            background: var(--white);
+            max-width: 900px;
+            margin: -60px auto 40px;
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-top: 5px solid var(--diviasi-accent);
+        }
+        .ia-badge {
+            background: var(--diviasi-accent);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        /* Neuro-Auth Module */
+        .auth-module {
+            background: #f0f4f8;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .mic-btn {
+            width: 70px; height: 70px; border-radius: 50%; border: none;
+            background: var(--sim-blue); color: white; font-size: 1.5rem;
+            cursor: pointer; transition: 0.3s; margin: 15px 0;
+        }
+        .mic-btn.active { background: var(--medical-red); animation: pulse 1.2s infinite; }
+
+        /* Features Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 4rem 5%;
+        }
+        .feature-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 15px;
+            transition: 0.3s;
+            text-align: center;
+        }
+        .feature-card:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .feature-card i { font-size: 2.5rem; color: var(--sim-blue); margin-bottom: 1.5rem; }
+
+        /* WhatsApp Floating */
+        .wa-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25d366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            z-index: 100;
+            text-decoration: none;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 15px 35px;
+            border-radius: 50px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-main { background: var(--sim-blue); color: white; }
+        .btn-wa { background: #25d366; color: white; margin-top: 10px; }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 56, 96, 0.4); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 15px rgba(255, 56, 96, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 56, 96, 0); }
+        }
+
+        footer { background: var(--dark); color: white; padding: 3rem 5%; text-align: center; }
+        .disclaimer { font-size: 0.8rem; opacity: 0.6; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <i class="fas fa-hand-holding-medical"></i> SIM <span>Telemedicina Digital</span>
+    </div>
+    <div class="partnership">Alianza SIM & DIVIASI</div>
+</header>
+
+<section class="hero">
+    <h1>Tu Médico Online, Siempre.</h1>
+    <p>La ciencia médica es gigante, no consultes a Internet. Usa nuestra IA pre-entrenada por médicos expertos para asesoría gratuita y seguimiento en vivo.</p>
+    <a href="#ia-section" class="btn btn-main">Consultar a la IA Gratis</a>
+</section>
+
+<section class="container" id="ia-section" style="padding: 0 5%;">
+    <div class="ia-box">
+        <span class="ia-badge">IA MÉDICA PRE-ENTRENADA</span>
+        <h2>Tu Guía de Asesoría Gratuita</h2>
+        <p>Despeja dudas, obtén orientación sobre laboratorios o imágenes y sigue tu tratamiento. Nuestra IA es la única corregida por médicos reales bajo la currícula académica de 6 años.</p>
+        
+        <div class="auth-module">
+            <h4>Verificación Neurocognitiva</h4>
+            <p>Diga <strong>5 colores</strong> en voz alta para validar su identidad neuronal.</p>
+            <div id="timer" style="font-size: 1.5rem; font-weight: bold; color: var(--medical-red);">5.0s</div>
+            <button class="mic-btn" id="micBtn"><i class="fas fa-microphone"></i></button>
+            <div id="auth-status">Esperando voz...</div>
+        </div>
+        
+        <div style="margin-top: 25px; text-align: center;">
+            <p><strong>¿Necesitas receta o certificado?</strong> El médico te enviará el link directo a tu WhatsApp.</p>
+            <a href="#" class="btn btn-wa"><i class="fab fa-whatsapp"></i> Contactar Médico Online</a>
+        </div>
+    </div>
+</section>
+
+<section class="grid">
+    <div class="feature-card">
+        <i class="fas fa-robot"></i>
+        <h3>Asistente Automático</h3>
+        <p>Tu asesor te recordará qué medicación tomar y a qué
